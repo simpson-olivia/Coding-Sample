@@ -1,0 +1,44 @@
+70 total points) This question will develop your facility in using statistical programming software, which in this course
+will be Stata. It will also give you an opportunity to see the theoretical concepts we discuss in lecture at work in a real
+dataset, in non-linear models and models with binary lefthand-side variables.
+The file NIPA.xls (available on Canvas) contains data on GDP, Government spending (G), and Investment spending
+(I), on a quarterly basis in the United States from 1947Q1 through 2024Q2.
+(a) (1 point) Run:
+i. “import excel using ”NIPA.xls”, clear firstrow”
+ii. “generate year = year(observation date)” then browse and look at the variable “year”
+iii. “generate month = month(observation date)” then browse and look at the variable “month”
+iv. “generate quarter = ceil(month/3)” then browse and look at the variable “quarter”
+v. “generate t = yq(year,quarter)” then browse and look at the variable “t”
+vi. “format t %tq” (do you notice what changed?)
+vii. “rename GPDIC1 I”
+viii. “rename GCEC1 G”
+(b) (3 points) Now plot G and I from 1947Q1 through 2024Q2 with the following command: “twoway (line G t)
+(line I t)”. Save this image with “graph export “GI time.png”, replace” and submit it with your solutions. Do
+investment and government spending seem to rise in tandem, or do they move in opposite directions?
+(c) (2 points) Regress I on G and report the slope coefficient and its standard error. How does that relate to your
+answer to the previous question.
+(d) (1 point) We will now transform the data to look at the quarterly changes in G (“dG”) and I (“dI”). Run:
+i. “tsset t”
+ii. “generate dG = D.G”
+iii. “generate dI = D.I”
+(e) (5 points) Now create a scatterplot of dI and dG from 2002Q2 through 2022Q2 with the following command:
+“scatter dI dG”. Save this image and submit it with your solutions. Would you say the overall relationship looks
+positive or negative?
+(f) (6 points) Run a regression of dI on dG and report the estimate of the slope coefficient and the p-value for the
+test that it is equal to 0. How does this align with your answer to the prior question?
+1
+(g) (7 points) Test for a non-linearity in the relationship by running a regression of dI on dG and dG2. (You can
+start by running “generate dG sq = dGˆg2”.) Report the estimated coefficients on dG and dG2, along with their
+p-values. Based on these results, is there strong evidence for a non-linear relationship?
+(h) (3 points) Report and interpret the findings of the F-test from Stata’s output. What hypothesis is it testing, what
+did it find, and how does it compare to your answer in the previous part?
+(i) (5 points) Based on your findings in the previous part, does the relationship have a maximum value or a minimum
+value? Regardless of your answer, at what value of dG does the model predict this maximum/minimum occurs?
+How do you interpret this?
+(j) (1 point) Create an indicator variable for whether C increased by running:
+i. “generate dI pos = 0”
+ii. “replace dI pos = 1 if dI > 0 & !mi(dI)”
+(k) (5 points) Regress the indicator you just created on dG using a linear model. Report the constant and slope
+estimates. According to this model, what is the likelihood that I increases in a quarter if dG = 10 in that quarter?
+(l) (10 points) Regress the indicator you just created on dG using a Logit model. Report the constant and slope
+estimates. According to this model, what is the likelihood that I increases in a quarter if dG = 10 in that quarter?
