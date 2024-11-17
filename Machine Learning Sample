@@ -1,1 +1,111 @@
+import pandas as pd
+import numpy as np
 
+url = 'https://drive.google.com/uc?id=145n4_o1g5ZMrnV_DZt8tR9rjZLlJvU5K'
+data = pd.read_csv(url)
+data.head(10)
+
+data.isnull().sum()
+
+data.describe()
+
+data.info()
+
+# I changed age, height, weight, and smoke to integars, following the info from the data dictionary 
+data['age'] = data['age'].astype(int)
+data['height'] = data['height'].astype(int)
+data['weight'] = data['weight'].astype(int)
+data['smoke'] = data['smoke'].astype(int) 
+
+# I turned parity and smoke into categories because they are binary categories. 
+data['parity'] = data['parity'].astype('category')
+data['smoke'] = data['smoke'].astype('category')
+
+data = data.dropna()
+
+import matplotlib.pyplot as plt 
+plt.hist(data['bwt'], color='olivedrab') 
+plt.title('Babyweight distribution')
+plt.xlabel('Weight (ounces)')
+plt.ylabel('Frequency')
+plt.show
+
+mport seaborn as sns
+
+correlation_matrix = data.corr()
+plt.figure(figsize=(12, 8))
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm')
+plt.title('Correlation Matrix')
+plt.show()
+
+bwt_corr = correlation_matrix['bwt'].drop('bwt').sort_values(ascending=False)
+print('Correlations with birth_weight:\n', bwt_corr)
+
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report, mean_absolute_error, mean_squared_error
+
+X = data.drop(columns=['bwt'])
+y = data['bwt']
+
+X_train, X_test, y_train, y_test = train_test_split(X, 
+                                                    y, 
+                                                    test_size=0.2, 
+                                                    random_state=42, 
+                                                    )
+
+rf = RandomForestRegressor(n_estimators = 377, criterion = 'poisson', random_state = 42)
+rf.fit(X_train, y_train)
+
+y_pred = rf.predict(X_test) 
+mae = mean_absolute_error(y_test, y_pred).round(2)
+mse = mean_squared_error(y_test, y_pred).round(2)
+
+print('The accuracy of the model is: {}'.format(rf.score(X_test, y_test).round(3)))
+print(f'Mean Absolute Error (MAE): {mae}')
+print(f'Mean Squared Error (MSE): {mse}')
+
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import classification_report
+import seaborn as sns
+sns.set_style('darkgrid')
+
+knn = KNeighborsClassifier(n_neighbors = 15)
+knn.fit(X_train, y_train)
+
+knn2 = KNeighborsClassifier(n_neighbors = 19)
+knn2.fit(X_train, y_train)
+
+knn3 = KNeighborsClassifier(n_neighbors = 27)
+knn3.fit(X_train, y_train)
+
+knn4 = KNeighborsClassifier(n_neighbors = 28)
+knn4.fit(X_train, y_train)
+
+knn5 = KNeighborsClassifier(n_neighbors = 29)
+knn5.fit(X_train, y_train)
+
+print('The accuracy of the model, when k=15, is: {}'.format(knn.score(X_test, y_test)))
+print('The accuracy of the model, when k=19, is: {}'.format(knn2.score(X_test, y_test)))
+print('The accuracy of the model, when k=27, is: {}'.format(knn3.score(X_test, y_test)))
+print('The accuracy of the model, when k=28, is: {}'.format(knn4.score(X_test, y_test)))
+print('The accuracy of the model, when k=29, is: {}'.format(knn5.score(X_test, y_test)))
+
+predictions = {}
+
+for k in range(3, 50, 2): 
+    knn6 = KNeighborsClassifier(n_neighbors = k)
+    knn6.fit(X_train, y_train)
+    predictions[k] = knn6.score(X_test, y_test)
+
+sns.lineplot(x=predictions.keys(), y=predictions.values())
+plt.show()
+
+from sklearn.ensemble import RandomForestRegressor
+
+global_importances = pd.Series(rf.feature_importances_, index=X_train.columns)
+global_importances.sort_values(ascending=True, inplace=True)
+global_importances.plot.barh(color='olivedrab')
+plt.xlabel("Importance")
+plt.ylabel("Feature")
+plt.title("Feature Importance")
