@@ -1,23 +1,23 @@
 import excel using "C:\Users\simpson.ol\Downloads\NIPA.xls", clear firstrow
 generate year = year(observation_date)
-//browse year
+browse year
 generate month = month(observation_date)
-//browse month
+browse month
 generate quarter = ceil(month/3)
-//browse quarter
+browse quarter
 generate t = yq(year,quarter)
-//browse t
+browse t
 format t %tq
 rename GPDIC1 I
 rename GCEC1 G
-//twoway (line G t) (line I t)
-//graph export "GI_time.png", replace
-//regress I G, robust
+twoway (line G t) (line I t)
+graph export "GI_time.png", replace
+regress I G, robust
 tsset t 
 generate dG = D.G 
 generate dI = D.I 
-//scatter dI dG 
-//graph export "GI_quarter.png", replace
+scatter dI dG 
+graph export "GI_quarter.png", replace
 regress dI dG, robust
 generate dG_sq = dG^2
 regress dI dG dG_sq, robust
