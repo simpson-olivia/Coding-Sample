@@ -1,0 +1,39 @@
+In this assignment, you will build a machine learning model that predicts the birthweight. You will experiment with creating both the k-NN and Random Forest algorithms to determined which produces the best model.
+
+Write python code to answer the questions below and ensure that you round the result of all numeric calculations to 2 decimal places. 
+
+load the data directly from the URL into a DataFrame.
+
+(10 pts) Data Prep & EDA
+Prepare the data for analysis. Ensure that you address the following:
+    * Perform EDA using the dataset to demonstrate patterns.
+    * Handle any missing data and invalid data. Justify your approach.
+    * Plot a histogram of the birth weight and explain the overall distribution. 
+
+(5 pts) Feature Selection
+Demonstrate which features are useful to build the model. Briefly explain the reason for the features that you selected.  Note: You can explore correlations, test hypothesis and/or other techniques. Remember that Data Science relies heavily on experimentation. Therefore, you are encouraged to experiment with your data.
+    * Tip #1: ensure that you carefully consider each feature and share the pros and cons of your decisions.
+    * Tip #2: you are predicting the birth weight, therefore it should not be one of your explanatory variables.
+
+Data Partitioning
+(2 pts) Partition the prepared data into train/test sets, ensure that your partitions are reproducible. Encode any categorical variables in your training set. Then, use the appropriate approach to encode your test set.
+
+Model Development
+(5 pts) Using the Random Forest algorithm, build a machine learning model that predicts the birth weight.  
+Think about the following: Are you performing classification or regression? Ensure that you choose the appropriate Random Forest Classifier/Regressor from scikit-learn.
+
+Model Evaluation
+(5 pts) Evaluate the predictions from your model and comment on the results. Ensure that you choose the appropriate metric to evaluate the model and round your calculations to two decimal places. Remember that we evaluate models differently depending on the task, i.e. classification or regression.
+
+Model Tuning
+(5 pts) What are your thoughts on the model's prediction capability? Did it do a good job of predicting the birth weight?
+Note: it is okay if your first version of the model is not the best. However, there are strategies that we can use to improve it, such as tuning.
+Tune the model: you can control the number of trees in your forest using the n_estimators parameter. Refer to the sample code from the lecture and also view the documentation**Links to an external site. to learn more about this algorithm and its parameters. Try at least five different values for the n_estimators parameter to determine if the model improved. Show all your steps to create, evaluate and tune each version of the model.
+Indicate which model performed the best.
+
+(15 pts) Perform steps 5-7 using the k-nn algorithm. Perform model tuning using at least 5 different values of k. Show all your steps to create, evaluate and tune each version of the model. Indicate which model performed the best.
+
+(3 pts) Compare both the best model from both the Random Forest and k-NN algorithms and explain which model is the most suitable to predict birthweight. Justify your response.
+
+(+5 bonus points) The Random forest has a method that returns the importance of each feature in your model. Review the documentation to learn about feature importance. After which, write the appropriate code that demonstrates which features were the most important when making the predictions. Visualize the feature importance using the best model and explain the results.
+**Note: An important aspect of Data Science is the ability to read and understand the documentation for the libraries that you are using. If at any point you have difficulty understanding how to interpret the documentation, stop by OH and we will be happy to help.
